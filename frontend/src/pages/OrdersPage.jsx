@@ -4,11 +4,8 @@ import { useNavigate } from 'react-router-dom';
 const OrdersPage = () => {
   const navigate = useNavigate();
 
-  // Get all orders from localStorage (assuming each order has a 'status' and it's stored as an array)
+  // Get all orders from localStorage
   const orders = JSON.parse(localStorage.getItem('orders')) || [];
-
-  // Log to verify the orders fetched from localStorage
-  console.log('Orders from localStorage:', orders);
 
   if (orders.length === 0) {
     return (
@@ -28,7 +25,6 @@ const OrdersPage = () => {
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-8">
       <h1 className="text-2xl font-bold mb-6 text-center">Your Orders 🎉</h1>
 
-      {/* Loop through all orders and display them */}
       <div className="w-full max-w-md">
         {orders.map((order, index) => (
           <div key={index} className="bg-white p-6 rounded-lg shadow-lg mb-6">
@@ -50,7 +46,7 @@ const OrdersPage = () => {
               <p className="text-gray-700">{order.quantity} item(s)</p>
             </div>
 
-            <div className="mb-6">
+            <div className="mb-4">
               <p className="text-lg font-semibold">Total Price:</p>
               <p className="text-green-600 text-xl font-bold">₹{order.price * order.quantity}</p>
             </div>
@@ -60,7 +56,15 @@ const OrdersPage = () => {
               <p className="text-yellow-600 font-semibold">{order.status}</p>
             </div>
 
-            {/* Optionally, you can add actions here, e.g., a "View Details" button */}
+            {order.address && (
+              <div className="mb-4">
+                <p className="text-lg font-semibold">Delivery Address:</p>
+                <p className="text-gray-700">{order.address.name}</p>
+                <p className="text-gray-700">{order.address.phone}</p>
+                <p className="text-gray-700">{order.address.street}</p>
+                <p className="text-gray-700">{order.address.city} - {order.address.pincode}</p>
+              </div>
+            )}
           </div>
         ))}
       </div>
